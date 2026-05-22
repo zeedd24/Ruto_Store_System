@@ -9,7 +9,7 @@ class KategoriController extends Controller
 {
     public function index()
     {
-        $kategori = Kategori::all();
+        $kategori = Kategori::withCount('produk')->get();
 
         return view('kategori.index', compact('kategori'));
     }
@@ -22,13 +22,42 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kategori' => 'required'
+            'nama_kategori' => 'required|string|max:255',
         ]);
 
         Kategori::create([
-            'nama_kategori' => $request->nama_kategori
+            'nama_kategori' => $request->nama_kategori,
         ]);
 
-        return redirect('/kategori');
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
+    }
+
+    public function edit(Kategori $kategori)
+    {
+        return view('kategori.edit', compact('kategori'));
+    }
+
+    public function update(Request $request, Kategori $kategori)
+    {
+        $request->validate([
+            'nama_kategori' => 'required|string|max:255',
+        ]);
+
+        $kategori->update([
+            'nama_kategori' => $request->nama_kategori,
+        ]);
+
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');
+    }
+
+    public function destroy(Kategori $kategori)
+    {
+        if ($kategori->produk()->exists()) {
+            return back()->with('error', 'Kategori masih memiliki produk, tidak dapat dihapus.');
+        }
+
+        $kategori->delete();
+
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }
