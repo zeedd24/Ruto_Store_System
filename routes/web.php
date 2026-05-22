@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GrafikController;
+use App\Http\Controllers\KasirAkunController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanController;
@@ -11,8 +12,12 @@ use App\Http\Controllers\StokController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
-});
+    if (auth()->check()) {
+        return redirect()->to(auth()->user()->homeRoute());
+    }
+
+    return view('auth.splash');
+})->name('splash');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -27,6 +32,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/laporan/{transaksi}', [LaporanController::class, 'show'])->name('laporan.show');
 
     Route::get('/grafik', [GrafikController::class, 'index'])->name('grafik.index');
+
+    Route::get('/akun-kasir', [KasirAkunController::class, 'index'])->name('akun-kasir.index');
+    Route::get('/akun-kasir/create', [KasirAkunController::class, 'create'])->name('akun-kasir.create');
+    Route::post('/akun-kasir', [KasirAkunController::class, 'store'])->name('akun-kasir.store');
+    Route::get('/akun-kasir/{user}/edit', [KasirAkunController::class, 'edit'])->name('akun-kasir.edit');
+    Route::put('/akun-kasir/{user}', [KasirAkunController::class, 'update'])->name('akun-kasir.update');
+    Route::get('/akun-kasir/{user}/reset-password', [KasirAkunController::class, 'showResetPassword'])->name('akun-kasir.reset-password');
+    Route::put('/akun-kasir/{user}/reset-password', [KasirAkunController::class, 'resetPassword'])->name('akun-kasir.reset-password.update');
+    Route::delete('/akun-kasir/{user}', [KasirAkunController::class, 'destroy'])->name('akun-kasir.destroy');
 });
 
 Route::middleware(['auth', 'role:kasir'])->prefix('kasir')->name('kasir.')->group(function () {

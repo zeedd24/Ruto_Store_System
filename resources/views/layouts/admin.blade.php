@@ -21,6 +21,7 @@
                 <a href="{{ route('stok.index') }}" class="block px-3 py-2 rounded {{ request()->routeIs('stok.*') ? 'bg-indigo-700' : 'hover:bg-indigo-700' }}">Stok</a>
                 <a href="{{ route('laporan.index') }}" class="block px-3 py-2 rounded {{ request()->routeIs('laporan.*') ? 'bg-indigo-700' : 'hover:bg-indigo-700' }}">Laporan</a>
                 <a href="{{ route('grafik.index') }}" class="block px-3 py-2 rounded {{ request()->routeIs('grafik.*') ? 'bg-indigo-700' : 'hover:bg-indigo-700' }}">Grafik</a>
+                <a href="{{ route('akun-kasir.index') }}" class="block px-3 py-2 rounded {{ request()->routeIs('akun-kasir.*') ? 'bg-indigo-700' : 'hover:bg-indigo-700' }}">Akun Kasir</a>
             </nav>
             <div class="p-4 border-t border-indigo-700">
                 <p class="text-sm truncate">{{ auth()->user()->name }}</p>

@@ -8,20 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
-        public function handle(Request $request, Closure $next, string $role): Response
-        {
-        if (auth()->user()->role != $role) {
+    public function handle(Request $request, Closure $next, string $role): Response
+    {
+        $user = $request->user();
 
-            if (auth()->user()->role == 'admin') {
-                return redirect('/dashboard');
-            }
+        if (! $user) {
+            return redirect()->route('login');
+        }
 
-            return redirect('/kasir');
+        if ($user->role !== $role) {
+            return redirect()->to($user->homeRoute());
         }
 
         return $next($request);

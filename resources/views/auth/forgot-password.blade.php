@@ -1,25 +1,28 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+@extends('layouts.ruto-auth-simple')
+
+@section('title', 'Lupa Password')
+
+@section('content')
+<h3>Lupa Password?</h3>
+<p class="subtitle">
+    Masukkan email akun Anda (admin atau kasir). Kami akan mengirim link untuk membuat password baru.
+</p>
+
+@if (session('status'))
+    <div class="ruto-status-success">{{ session('status') }}</div>
+@endif
+
+<form method="POST" action="{{ route('password.email') }}">
+    @csrf
+
+    <div class="ruto-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus placeholder="admin@ruto.store">
+        @error('email')
+            <p class="ruto-error">{{ $message }}</p>
+        @enderror
     </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    <button type="submit" class="ruto-btn-primary">Kirim Link Reset Password</button>
+</form>
+@endsection

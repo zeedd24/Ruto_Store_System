@@ -50,6 +50,24 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $user = Auth::user();
+
+        if (! $user->aktif) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun ini nonaktif. Hubungi administrator.',
+            ]);
+        }
+
+        if (! in_array($user->role, ['admin', 'kasir'], true)) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Role akun tidak valid. Hubungi administrator.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

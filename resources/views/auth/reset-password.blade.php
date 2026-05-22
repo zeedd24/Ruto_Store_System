@@ -1,39 +1,40 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+@extends('layouts.ruto-auth-simple')
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+@section('title', 'Reset Password')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+@section('content')
+<h3>Password Baru</h3>
+<p class="subtitle">Masukkan password baru untuk akun Anda.</p>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+<form method="POST" action="{{ route('password.store') }}">
+    @csrf
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+    <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
+    <div class="ruto-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus autocomplete="username">
+        @error('email')
+            <p class="ruto-error">{{ $message }}</p>
+        @enderror
+    </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+    <div class="ruto-field mt-4">
+        <label for="password">Password Baru</label>
+        <input id="password" type="password" name="password" required autocomplete="new-password">
+        @error('password')
+            <p class="ruto-error">{{ $message }}</p>
+        @enderror
+    </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    <div class="ruto-field mt-4">
+        <label for="password_confirmation">Konfirmasi Password</label>
+        <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password">
+        @error('password_confirmation')
+            <p class="ruto-error">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <button type="submit" class="ruto-btn-primary">Simpan Password Baru</button>
+</form>
+@endsection
