@@ -27,7 +27,7 @@
             </div>
             <div class="ruto-field">
                 <label>Tanggal</label>
-                <input type="date" name="tanggal" value="{{ old('tanggal', today()->format('Y-m-d')) }}" class="ruto-input" required>
+                <input type="date" name="tanggal" value="{{ old('tanggal', \App\Support\RutoDate::today()->format('Y-m-d')) }}" class="ruto-input" required>
                 @error('tanggal')<p class="ruto-field-error">{{ $message }}</p>@enderror
             </div>
             <div class="ruto-field">

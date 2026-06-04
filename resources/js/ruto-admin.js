@@ -16,6 +16,11 @@ function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.classList.toggle('ruto-theme-dark', theme === 'dark');
 
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+        themeColor.content = theme === 'dark' ? '#080706' : '#f8ecd8';
+    }
+
     const toggle = document.getElementById('ruto-theme-toggle');
     if (toggle) {
         toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');

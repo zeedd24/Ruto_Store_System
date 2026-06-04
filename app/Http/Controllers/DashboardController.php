@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\Transaksi;
+use App\Support\RutoDate;
+
 class DashboardController extends Controller
 {
     public function index()
@@ -12,7 +14,7 @@ class DashboardController extends Controller
         $totalProduk = Produk::count();
         $totalKategori = Kategori::count();
 
-        $transaksiHariIni = Transaksi::whereDate('tanggal', today());
+        $transaksiHariIni = Transaksi::whereDate('tanggal', RutoDate::today());
         $jumlahTransaksiHariIni = $transaksiHariIni->count();
         $penjualanHariIni = $transaksiHariIni->sum('total_harga');
 

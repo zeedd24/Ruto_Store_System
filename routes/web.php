@@ -7,7 +7,10 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\PesananUserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QrPesananController;
+use App\Http\Controllers\KasirPesananController;
 use App\Http\Controllers\StokController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +19,15 @@ Route::get('/', function () {
         return redirect()->to(auth()->user()->homeRoute());
     }
 
-    return view('auth.splash');
+    return redirect()->route('login');
 })->name('splash');
+
+Route::prefix('pesan')->name('pesan.')->group(function () {
+    Route::get('/', [PesananUserController::class, 'index'])->name('index');
+    Route::get('/cari', [PesananUserController::class, 'search'])->name('search');
+    Route::post('/', [PesananUserController::class, 'store'])->name('store');
+    Route::get('/sukses/{pesanan}', [PesananUserController::class, 'sukses'])->name('sukses');
+});
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -32,6 +42,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/laporan/{transaksi}', [LaporanController::class, 'show'])->name('laporan.show');
 
     Route::get('/grafik', [GrafikController::class, 'index'])->name('grafik.index');
+
+    Route::get('/qr-pesanan', [QrPesananController::class, 'index'])->name('qr-pesanan.index');
 
     Route::get('/akun-kasir', [KasirAkunController::class, 'index'])->name('akun-kasir.index');
     Route::get('/akun-kasir/create', [KasirAkunController::class, 'create'])->name('akun-kasir.create');
@@ -48,6 +60,11 @@ Route::middleware(['auth', 'role:kasir'])->prefix('kasir')->name('kasir.')->grou
     Route::get('/cari', [KasirController::class, 'search'])->name('search');
     Route::post('/checkout', [KasirController::class, 'checkout'])->name('checkout');
     Route::get('/struk/{transaksi}', [KasirController::class, 'struk'])->name('struk');
+
+    Route::get('/pesanan', [KasirPesananController::class, 'index'])->name('pesanan.index');
+    Route::get('/pesanan/{pesanan}/bayar', [KasirPesananController::class, 'bayar'])->name('pesanan.bayar');
+    Route::post('/pesanan/{pesanan}/bayar', [KasirPesananController::class, 'checkout'])->name('pesanan.checkout');
+    Route::post('/pesanan/{pesanan}/batalkan', [KasirPesananController::class, 'batalkan'])->name('pesanan.batalkan');
 });
 
 Route::middleware('auth')->group(function () {

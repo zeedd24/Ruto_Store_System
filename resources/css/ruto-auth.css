@@ -396,6 +396,33 @@
     box-shadow: 0 8px 22px rgba(230, 162, 39, 0.4);
 }
 
+.ruto-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: var(--ruto-white);
+    color: var(--ruto-brand-dark);
+    border: 1.5px solid rgba(230, 162, 39, 0.45);
+    border-radius: 0.65rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: transform 0.15s, box-shadow 0.15s, background-color 0.15s, border-color 0.15s;
+}
+
+.ruto-btn-secondary:hover {
+    background-color: var(--ruto-warm);
+    border-color: var(--ruto-brand);
+    color: var(--ruto-brand-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(230, 162, 39, 0.15);
+}
+
 .ruto-remember {
     display: flex;
     align-items: center;

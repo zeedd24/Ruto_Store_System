@@ -8,6 +8,8 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/ruto-auth.css',
                 'resources/css/ruto-admin.css',
+                'resources/css/ruto-kasir.css',
+                'resources/css/ruto-user.css',
                 'resources/js/app.js',
                 'resources/js/ruto-admin.js',
             ],

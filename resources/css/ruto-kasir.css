@@ -1,0 +1,400 @@
+/* Kasir POS — extends ruto-admin theme */
+
+.ruto-kasir-body {
+    min-height: 100vh;
+}
+
+.ruto-kasir-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.35rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(230, 162, 39, 0.2);
+}
+
+.ruto-kasir-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.65rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ruto-text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.ruto-kasir-tab:hover {
+    color: var(--ruto-brand-dark);
+    background: var(--ruto-brand-soft);
+}
+
+.ruto-kasir-tab.is-active {
+    background: linear-gradient(135deg, var(--ruto-brand), var(--ruto-brand-dark));
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(230, 162, 39, 0.3);
+}
+
+.ruto-kasir-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: #dc2626;
+    color: #fff;
+}
+
+.ruto-kasir-tab.is-active .ruto-kasir-tab-badge {
+    background: #fff;
+    color: var(--ruto-brand-dark);
+}
+
+html[data-theme='dark'] .ruto-kasir-tabs {
+    background: rgba(26, 24, 20, 0.7);
+    border-color: rgba(230, 162, 39, 0.15);
+}
+
+.ruto-kasir-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0.85rem;
+    gap: 0.85rem;
+}
+
+.ruto-kasir-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 1.35rem;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+        0 0 0 1px rgba(230, 162, 39, 0.12),
+        0 12px 32px rgba(230, 162, 39, 0.08);
+    animation: rutoFadeIn 0.45s ease;
+}
+
+.ruto-kasir-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+    min-width: 0;
+}
+
+.ruto-kasir-logo-wrap {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--ruto-white);
+    border: 1px solid rgba(230, 162, 39, 0.25);
+    box-shadow: 0 4px 14px rgba(230, 162, 39, 0.15);
+}
+
+.ruto-kasir-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.ruto-kasir-user {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--ruto-text);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ruto-kasir-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.ruto-kasir-logout {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.ruto-kasir-main {
+    flex: 1;
+    border-radius: 1.35rem;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px rgba(230, 162, 39, 0.06);
+    padding: 1.25rem;
+    animation: rutoFadeIn 0.5s ease 0.08s both;
+}
+
+/* POS product grid */
+.ruto-pos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    max-height: 28rem;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    .ruto-pos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.ruto-pos-product {
+    text-align: left;
+    border: 1px solid rgba(230, 162, 39, 0.18);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--ruto-white);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+    padding: 0;
+}
+
+.ruto-pos-product:hover {
+    border-color: var(--ruto-brand);
+    box-shadow: 0 8px 24px rgba(230, 162, 39, 0.18);
+    transform: translateY(-2px);
+}
+
+.ruto-pos-product-img {
+    aspect-ratio: 4 / 3;
+    background: var(--ruto-cream);
+    border-bottom: 1px solid rgba(230, 162, 39, 0.12);
+}
+
+.ruto-pos-product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ruto-pos-product-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--ruto-text-muted);
+}
+
+.ruto-pos-product-body {
+    padding: 0.75rem;
+}
+
+.ruto-pos-product-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ruto-text);
+    line-height: 1.35;
+    margin: 0;
+}
+
+.ruto-pos-product-cat {
+    font-size: 0.7rem;
+    color: var(--ruto-text-muted);
+    margin: 0.2rem 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ruto-pos-product-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    gap: 0.35rem;
+}
+
+.ruto-pos-product-price {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ruto-brand-dark);
+}
+
+.ruto-pos-product-stok {
+    font-size: 0.7rem;
+    color: var(--ruto-text-muted);
+}
+
+/* Cart */
+.ruto-pos-cart {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.ruto-pos-cart-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.ruto-pos-cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(230, 162, 39, 0.12);
+    font-size: 0.875rem;
+}
+
+.ruto-pos-cart-item-name {
+    font-weight: 500;
+    color: var(--ruto-text);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ruto-pos-cart-item-price {
+    font-size: 0.8rem;
+    color: var(--ruto-text-muted);
+    margin: 0.15rem 0 0;
+}
+
+.ruto-pos-qty-btn {
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid rgba(230, 162, 39, 0.35);
+    border-radius: 0.35rem;
+    background: var(--ruto-white);
+    color: var(--ruto-brand-dark);
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.ruto-pos-qty-btn:hover {
+    background: var(--ruto-brand-soft);
+    border-color: var(--ruto-brand);
+}
+
+.ruto-pos-cart-remove {
+    font-size: 0.7rem;
+    color: #dc2626;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.ruto-pos-checkout-footer {
+    border-top: 1px solid rgba(230, 162, 39, 0.15);
+    padding-top: 1rem;
+}
+
+.ruto-pos-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ruto-text);
+    margin-bottom: 0.75rem;
+}
+
+.ruto-pos-empty {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--ruto-text-muted);
+    padding: 1.5rem 0;
+}
+
+.ruto-pos-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 1280px) {
+    .ruto-pos-layout {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+/* Dark mode — kasir shell */
+html[data-theme='dark'] .ruto-kasir-header {
+    background: rgba(26, 24, 20, 0.85);
+    border-color: rgba(230, 162, 39, 0.15);
+}
+
+html[data-theme='dark'] .ruto-kasir-logo-wrap {
+    background: #1f1c17;
+    border-color: rgba(230, 162, 39, 0.25);
+}
+
+html[data-theme='dark'] .ruto-kasir-main {
+    background: rgba(26, 24, 20, 0.55);
+    border-color: rgba(230, 162, 39, 0.1);
+}
+
+html[data-theme='dark'] .ruto-pos-product {
+    background: var(--ruto-cream);
+    border-color: rgba(230, 162, 39, 0.15);
+}
+
+html[data-theme='dark'] .ruto-pos-product:hover {
+    border-color: var(--ruto-brand);
+}
+
+html[data-theme='dark'] .ruto-pos-product-img {
+    background: #141210;
+}
+
+html[data-theme='dark'] .ruto-pos-product-price {
+    color: var(--ruto-brand-light);
+}
+
+html[data-theme='dark'] .ruto-pos-qty-btn {
+    background: #1f1c17;
+    color: var(--ruto-brand-light);
+}
+
+html[data-theme='dark'] .ruto-pos-cart-item {
+    border-bottom-color: rgba(230, 162, 39, 0.1);
+}
+
+@media (max-width: 640px) {
+    .ruto-kasir-header {
+        flex-wrap: wrap;
+        padding: 0.75rem 1rem;
+    }
+
+    .ruto-kasir-user {
+        font-size: 1.15rem;
+    }
+
+    .ruto-topbar-date {
+        display: none;
+    }
+}

@@ -3,72 +3,92 @@
 @section('title', 'POS')
 
 @section('content')
-<div x-data="posApp()" class="grid grid-cols-1 xl:grid-cols-3 gap-4">
-    <div class="xl:col-span-2 space-y-4">
-        <div class="bg-white rounded-lg shadow p-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Cari Produk</label>
-            <input type="text" x-model="search" @input.debounce.300ms="cariProduk()"
-                placeholder="Ketik nama produk atau kategori..."
-                class="w-full border-gray-300 rounded-md shadow-sm">
+<x-kasir.nav-tabs />
+
+<div x-data="posApp()" class="ruto-pos-layout mt-4">
+    <div class="space-y-4">
+        <div class="ruto-card ruto-card-padded">
+            <div class="ruto-field">
+                <label>Cari Produk</label>
+                <input type="text" x-model="search" @input.debounce.300ms="cariProduk()"
+                    placeholder="Ketik nama produk atau kategori..."
+                    class="ruto-input">
+            </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-4">
-            <h3 class="font-semibold mb-3">Daftar Produk</h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[28rem] overflow-y-auto">
+        <div class="ruto-card ruto-card-padded">
+            <h3 class="ruto-card-title">Daftar Produk</h3>
+            <div class="ruto-pos-grid">
                 <template x-for="item in produkList" :key="item.id">
-                    <button type="button" @click="tambahKeKeranjang(item)"
-                        class="text-left border rounded-lg p-3 hover:border-emerald-500 hover:bg-emerald-50 transition">
-                        <p class="font-medium text-sm" x-text="item.nama_produk"></p>
-                        <p class="text-xs text-gray-500" x-text="item.kategori?.nama_kategori"></p>
-                        <p class="text-sm text-emerald-700 font-semibold mt-1" x-text="formatRupiah(item.harga_jual)"></p>
-                        <p class="text-xs text-gray-400">Stok: <span x-text="item.stok"></span></p>
+                    <button type="button" @click="tambahKeKeranjang(item)" class="ruto-pos-product">
+                        <div class="ruto-pos-product-img">
+                            <template x-if="item.gambar_url">
+                                <img :src="item.gambar_url"
+                                     :alt="`Gambar ${item.nama_produk}`"
+                                     loading="lazy"
+                                     x-on:error="item.gambar_url = null">
+                            </template>
+                            <template x-if="!item.gambar_url">
+                                <div class="ruto-pos-product-placeholder">Tidak ada gambar</div>
+                            </template>
+                        </div>
+                        <div class="ruto-pos-product-body">
+                            <p class="ruto-pos-product-name" x-text="item.nama_produk"></p>
+                            <p class="ruto-pos-product-cat" x-text="item.kategori?.nama_kategori"></p>
+                            <div class="ruto-pos-product-meta">
+                                <span class="ruto-pos-product-price" x-text="formatRupiah(item.harga_jual)"></span>
+                                <span class="ruto-pos-product-stok">Stok: <span x-text="item.stok"></span></span>
+                            </div>
+                        </div>
                     </button>
                 </template>
             </div>
-            <p x-show="produkList.length === 0" class="text-gray-500 text-sm text-center py-4">Produk tidak ditemukan.</p>
+            <p x-show="produkList.length === 0" class="ruto-pos-empty">Produk tidak ditemukan.</p>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-        <h3 class="font-semibold mb-3">Keranjang</h3>
+    <div class="ruto-card ruto-card-padded ruto-pos-cart">
+        <h3 class="ruto-card-title">Keranjang</h3>
 
-        <div class="flex-1 overflow-y-auto mb-4">
+        <div class="ruto-pos-cart-list">
             <template x-for="(item, index) in cart" :key="item.produk_id">
-                <div class="flex items-center justify-between py-2 border-b text-sm gap-2">
+                <div class="ruto-pos-cart-item">
                     <div class="flex-1 min-w-0">
-                        <p class="font-medium truncate" x-text="item.nama_produk"></p>
-                        <p class="text-gray-500" x-text="formatRupiah(item.harga_jual)"></p>
+                        <p class="ruto-pos-cart-item-name" x-text="item.nama_produk"></p>
+                        <p class="ruto-pos-cart-item-price" x-text="formatRupiah(item.harga_jual)"></p>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button type="button" @click="ubahQty(index, -1)" class="w-7 h-7 border rounded">-</button>
-                        <span class="w-6 text-center" x-text="item.qty"></span>
-                        <button type="button" @click="ubahQty(index, 1)" class="w-7 h-7 border rounded">+</button>
+                        <button type="button" @click="ubahQty(index, -1)" class="ruto-pos-qty-btn">-</button>
+                        <span class="w-6 text-center" style="color:var(--ruto-text)" x-text="item.qty"></span>
+                        <button type="button" @click="ubahQty(index, 1)" class="ruto-pos-qty-btn">+</button>
                     </div>
-                    <button type="button" @click="hapusItem(index)" class="text-red-500 text-xs">Hapus</button>
+                    <button type="button" @click="hapusItem(index)" class="ruto-pos-cart-remove">Hapus</button>
                 </div>
             </template>
-            <p x-show="cart.length === 0" class="text-gray-500 text-sm text-center py-6">Keranjang kosong.</p>
+            <p x-show="cart.length === 0" class="ruto-pos-empty">Keranjang kosong.</p>
         </div>
 
-        <div class="border-t pt-3 space-y-2">
-            <div class="flex justify-between font-semibold text-lg">
+        <div class="ruto-pos-checkout-footer">
+            <div class="ruto-pos-total-row">
                 <span>Total</span>
                 <span x-text="formatRupiah(total)"></span>
             </div>
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">Bayar</label>
-                <input type="number" x-model.number="bayar" min="0" class="w-full border-gray-300 rounded-md shadow-sm">
+            <div class="ruto-field">
+                <label>Bayar</label>
+                <input type="number" x-model.number="bayar" min="0" class="ruto-input">
             </div>
-            <div class="flex justify-between text-sm">
+            <div class="flex justify-between text-sm mb-3" style="color:var(--ruto-text-muted)">
                 <span>Kembalian</span>
-                <span class="font-medium" x-text="formatRupiah(Math.max(0, bayar - total))"></span>
+                <span class="font-medium" style="color:var(--ruto-brand-dark)" x-text="formatRupiah(Math.max(0, bayar - total))"></span>
             </div>
 
             <form method="POST" action="{{ route('kasir.checkout') }}" @submit="prepareSubmit">
                 @csrf
                 <div id="checkout-items"></div>
                 <button type="submit" :disabled="cart.length === 0 || bayar < total"
-                    class="w-full mt-2 bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="ruto-btn-primary w-full justify-center"
+                    style="width:100%;justify-content:center;padding:0.85rem 1rem;margin-top:0.5rem"
+                    :style="(cart.length === 0 || bayar < total) ? 'opacity:0.5;cursor:not-allowed' : ''">
                     Checkout
                 </button>
             </form>

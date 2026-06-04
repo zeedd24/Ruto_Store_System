@@ -12,6 +12,8 @@ class Transaksi extends Model
 
     protected $fillable = [
         'kode_transaksi',
+        'sumber',
+        'pesanan_id',
         'user_id',
         'tanggal',
         'total_harga',
@@ -37,5 +39,15 @@ class Transaksi extends Model
     public function details(): HasMany
     {
         return $this->hasMany(DetailTransaksi::class);
+    }
+
+    public function pesanan(): BelongsTo
+    {
+        return $this->belongsTo(Pesanan::class);
+    }
+
+    public function isDariPesananUser(): bool
+    {
+        return $this->sumber === 'pesanan_user';
     }
 }

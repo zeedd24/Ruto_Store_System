@@ -1,0 +1,31 @@
+<article class="rc-menu-card"
+    :class="{ 'rc-menu-card--in-cart': qtyInCart(item.id) > 0, 'rc-menu-card--liked': isLiked(item.id) }"
+    @click="tambahKeKeranjang(item)">
+    <div class="rc-menu-card-img">
+        <template x-if="item.gambar_url">
+            <img :src="item.gambar_url" :alt="item.nama_produk" loading="lazy"
+                 x-on:error="item.gambar_url = null">
+        </template>
+        <template x-if="!item.gambar_url">
+            <div class="rc-menu-card-placeholder">☕</div>
+        </template>
+        <button type="button" class="rc-like-btn"
+            :class="{ 'is-liked': isLiked(item.id) }"
+            @click="toggleLike(item, $event)"
+            :aria-label="isLiked(item.id) ? 'Hapus favorit' : 'Suka menu'">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        </button>
+        <span class="rc-menu-card-qty" x-show="qtyInCart(item.id) > 0" x-text="qtyInCart(item.id)"></span>
+        <span class="rc-menu-card-hot" x-show="(item.total_terjual || 0) > 0 && !isLiked(item.id)">🔥</span>
+    </div>
+    <div class="rc-menu-card-body">
+        <h3 class="rc-menu-card-name" x-text="item.nama_produk"></h3>
+        <p class="rc-menu-card-cat" x-text="item.kategori?.nama_kategori"></p>
+        <div class="rc-menu-card-footer">
+            <span class="rc-menu-card-price" x-text="formatRupiah(item.harga_jual)"></span>
+            <span class="rc-menu-card-add" aria-hidden="true">+</span>
+        </div>
+        <p class="rc-menu-card-sold" x-show="(item.total_terjual || 0) > 0"
+           x-text="(item.total_terjual || 0) + ' terjual'"></p>
+    </div>
+</article>

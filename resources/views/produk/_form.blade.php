@@ -1,4 +1,4 @@
-<form action="{{ $produk ? route('produk.update', $produk) : route('produk.store') }}" method="POST">
+<form action="{{ $produk ? route('produk.update', $produk) : route('produk.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @if ($produk) @method('PUT') @endif
 
@@ -46,6 +46,18 @@
             </select>
             @error('status')<p class="ruto-field-error">{{ $message }}</p>@enderror
         </div>
+    </div>
+
+    <div class="ruto-field">
+        <label>Gambar Produk</label>
+        @if ($produk?->gambar_url)
+            <div class="mb-2">
+                <img src="{{ $produk->gambar_url }}" alt="Gambar {{ $produk->nama_produk }}" class="h-20 w-20 rounded object-cover border">
+            </div>
+        @endif
+        <input type="file" name="gambar" accept="image/*" class="ruto-input">
+        <p class="text-xs text-gray-500 mt-1">Opsional. JPG/PNG/WEBP maksimal 2MB.</p>
+        @error('gambar')<p class="ruto-field-error">{{ $message }}</p>@enderror
     </div>
 
     <x-admin.form-actions :cancel="route('produk.index')" />

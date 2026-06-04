@@ -41,6 +41,9 @@
     } elseif (request()->routeIs('grafik.*')) {
         $crumbs[] = ['label' => 'Insight'];
         $crumbs[] = ['label' => 'Grafik', 'current' => true];
+    } elseif (request()->routeIs('qr-pesanan.index')) {
+        $crumbs[] = ['label' => 'Pelanggan'];
+        $crumbs[] = ['label' => 'QR Pesan User', 'current' => true];
     } elseif (request()->routeIs('akun-kasir.index')) {
         $crumbs[] = ['label' => 'Tim'];
         $crumbs[] = ['label' => 'Akun Kasir', 'current' => true];

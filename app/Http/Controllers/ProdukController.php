@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -31,7 +32,12 @@ class ProdukController extends Controller
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'status' => 'required|in:aktif,nonaktif',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('produk', 'public');
+        }
 
         Produk::create($data);
 
@@ -54,7 +60,18 @@ class ProdukController extends Controller
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'status' => 'required|in:aktif,nonaktif',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('produk', 'public');
+
+            if ($produk->gambar) {
+                Storage::disk('public')->delete($produk->gambar);
+            }
+
+            $data['gambar'] = $path;
+        }
 
         $produk->update($data);
 
@@ -63,6 +80,10 @@ class ProdukController extends Controller
 
     public function destroy(Produk $produk)
     {
+        if ($produk->gambar) {
+            Storage::disk('public')->delete($produk->gambar);
+        }
+
         $produk->delete();
 
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');

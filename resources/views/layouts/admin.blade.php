@@ -50,6 +50,10 @@
                     <x-admin.nav-link :href="route('grafik.index')" :active="request()->routeIs('grafik.*')" icon="grafik" :delay="250">Grafik</x-admin.nav-link>
                 </x-admin.nav-group>
 
+                <x-admin.nav-group label="Pelanggan">
+                    <x-admin.nav-link :href="route('qr-pesanan.index')" :active="request()->routeIs('qr-pesanan.*')" icon="qr" :delay="280">QR Pesan User</x-admin.nav-link>
+                </x-admin.nav-group>
+
                 <x-admin.nav-group label="Tim">
                     <x-admin.nav-link :href="route('akun-kasir.index')" :active="request()->routeIs('akun-kasir.*')" icon="kasir" :delay="300">Akun Kasir</x-admin.nav-link>
                 </x-admin.nav-group>
@@ -88,7 +92,7 @@
                     <h1 class="ruto-topbar-title">@yield('title')</h1>
                 </div>
                 <div class="ruto-topbar-actions">
-                    <span class="ruto-topbar-date">{{ now()->format('l, d F Y') }}</span>
+                    <span class="ruto-topbar-date">{{ \App\Support\RutoDate::formatDisplay() }}</span>
                     <button
                         type="button"
                         id="ruto-theme-toggle"

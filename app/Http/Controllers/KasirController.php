@@ -76,8 +76,9 @@ class KasirController extends Controller
 
                 $transaksi = Transaksi::create([
                     'kode_transaksi' => 'TRX-'.now()->format('YmdHis').'-'.random_int(100, 999),
+                    'sumber' => 'langsung',
                     'user_id' => auth()->id(),
-                    'tanggal' => today(),
+                    'tanggal' => \App\Support\RutoDate::today(),
                     'total_harga' => $total,
                     'bayar' => $validated['bayar'],
                     'kembalian' => $validated['bayar'] - $total,
@@ -110,7 +111,7 @@ class KasirController extends Controller
             abort(403);
         }
 
-        $transaksi->load(['user', 'details.produk']);
+        $transaksi->load(['user', 'details.produk', 'pesanan']);
 
         return view('kasir.struk', compact('transaksi'));
     }

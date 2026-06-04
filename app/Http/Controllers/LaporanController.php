@@ -9,8 +9,8 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $dari = $request->input('dari', now()->startOfMonth()->format('Y-m-d'));
-        $sampai = $request->input('sampai', now()->format('Y-m-d'));
+        $dari = $request->input('dari', \App\Support\RutoDate::now()->startOfMonth()->format('Y-m-d'));
+        $sampai = $request->input('sampai', \App\Support\RutoDate::today()->format('Y-m-d'));
 
         $transaksi = Transaksi::with('user')
             ->whereBetween('tanggal', [$dari, $sampai])

@@ -3,11 +3,6 @@
 @section('title', 'Masuk')
 
 @section('content')
-<a href="{{ route('splash') }}" class="ruto-back-splash">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-    Kembali
-</a>
-
 <h3>Masuk ke Sistem</h3>
 <p class="subtitle">Admin &amp; kasir — kelola operasional RUTO</p>
 
@@ -40,6 +35,10 @@
     </label>
 
     <button type="submit" class="ruto-btn-primary">Masuk</button>
+
+    <a href="{{ route('pesan.index') }}" class="ruto-btn-secondary w-full justify-center mt-3" style="width:100%;justify-content:center;text-align:center;display:flex">
+        Pesan Langsung
+    </a>
 
     @if (Route::has('password.request'))
         <p class="ruto-auth-footer">
