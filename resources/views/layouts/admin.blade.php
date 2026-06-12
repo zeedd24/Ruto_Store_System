@@ -46,7 +46,8 @@
                 </x-admin.nav-group>
 
                 <x-admin.nav-group label="Insight">
-                    <x-admin.nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')" icon="laporan" :delay="200">Laporan</x-admin.nav-link>
+                    <x-admin.nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')" icon="laporan" :delay="200">Laporan Penjualan</x-admin.nav-link>
+                    <x-admin.nav-link :href="route('admin.laporan-stok.index')" :active="request()->routeIs('admin.laporan-stok.*')" icon="stok" :delay="225">Laporan Stok Dapur</x-admin.nav-link>
                     <x-admin.nav-link :href="route('grafik.index')" :active="request()->routeIs('grafik.*')" icon="grafik" :delay="250">Grafik</x-admin.nav-link>
                 </x-admin.nav-group>
 

@@ -12,7 +12,7 @@ class KasirController extends Controller
 {
     public function index()
     {
-        $produk = Produk::aktif()->where('stok', '>', 0)->with('kategori')->orderBy('nama_produk')->get();
+        $produk = Produk::jual()->aktif()->where('stok', '>', 0)->with('kategori')->orderBy('nama_produk')->get();
 
         return view('kasir.pos', compact('produk'));
     }
@@ -21,7 +21,7 @@ class KasirController extends Controller
     {
         $q = $request->input('q', '');
 
-        $produk = Produk::aktif()
+        $produk = Produk::jual()->aktif()
             ->where('stok', '>', 0)
             ->where(function ($query) use ($q) {
                 $query->where('nama_produk', 'like', "%{$q}%")
@@ -47,6 +47,7 @@ class KasirController extends Controller
             $transaksi = DB::transaction(function () use ($validated) {
                 $total = 0;
                 $details = [];
+                $cupQuantities = [];
 
                 foreach ($validated['items'] as $item) {
                     $produk = Produk::lockForUpdate()->findOrFail($item['produk_id']);
@@ -59,6 +60,10 @@ class KasirController extends Controller
                         throw new \RuntimeException("Stok {$produk->nama_produk} tidak mencukupi.");
                     }
 
+                    if ($produk->cup_id) {
+                        $cupQuantities[$produk->cup_id] = ($cupQuantities[$produk->cup_id] ?? 0) + $item['qty'];
+                    }
+
                     $subtotal = $produk->harga_jual * $item['qty'];
                     $total += $subtotal;
 
@@ -68,6 +73,14 @@ class KasirController extends Controller
                         'harga' => $produk->harga_jual,
                         'subtotal' => $subtotal,
                     ];
+                }
+
+                // Check cup stocks
+                foreach ($cupQuantities as $cupId => $reqQty) {
+                    $cup = Produk::lockForUpdate()->findOrFail($cupId);
+                    if ($cup->stok < $reqQty) {
+                        throw new \RuntimeException("Stok wadah/cup {$cup->nama_produk} tidak mencukupi untuk memenuhi pesanan ini.");
+                    }
                 }
 
                 if ($validated['bayar'] < $total) {
@@ -94,6 +107,10 @@ class KasirController extends Controller
                     ]);
 
                     $detail['produk']->decrement('stok', $detail['qty']);
+
+                    if ($detail['produk']->cup_id) {
+                        Produk::where('id', $detail['produk']->cup_id)->decrement('stok', $detail['qty']);
+                    }
                 }
 
                 return $transaksi;

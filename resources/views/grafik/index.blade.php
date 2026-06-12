@@ -3,18 +3,30 @@
 @section('title', 'Grafik Penjualan')
 
 @section('content')
+<form method="GET" class="ruto-card ruto-card-padded mb-6 flex flex-wrap gap-4 items-end ruto-fade-in">
+    <div class="ruto-field mb-0">
+        <label>Dari</label>
+        <input type="date" name="dari" value="{{ $dari }}" class="ruto-input">
+    </div>
+    <div class="ruto-field mb-0">
+        <label>Sampai</label>
+        <input type="date" name="sampai" value="{{ $sampai }}" class="ruto-input">
+    </div>
+    <button type="submit" class="ruto-btn-primary">Filter</button>
+</form>
+
 <div class="ruto-stat-card ruto-fade-in mb-6" style="max-width:320px;">
-    <p class="ruto-stat-label">Penjualan Bulan Ini</p>
-    <p class="ruto-stat-value highlight">Rp {{ number_format($penjualanBulanIni, 0, ',', '.') }}</p>
+    <p class="ruto-stat-label">Penjualan Periode Ini</p>
+    <p class="ruto-stat-value highlight">Rp {{ number_format($penjualanPeriodeIni, 0, ',', '.') }}</p>
 </div>
 
 <div class="ruto-grid-2">
     <div class="ruto-card ruto-card-padded ruto-fade-in-delay-1">
-        <h3 class="ruto-card-title">Penjualan 7 Hari Terakhir</h3>
+        <h3 class="ruto-card-title">Grafik Perkembangan Penjualan</h3>
         <canvas id="chartHarian" height="200"></canvas>
     </div>
     <div class="ruto-card ruto-card-padded ruto-fade-in-delay-2">
-        <h3 class="ruto-card-title">Penjualan per Kategori (Bulan Ini)</h3>
+        <h3 class="ruto-card-title">Penjualan per Kategori (Periode Ini)</h3>
         <canvas id="chartKategori" height="200"></canvas>
     </div>
 </div>

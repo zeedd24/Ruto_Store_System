@@ -52,11 +52,24 @@ class KasirPesananController extends Controller
                     throw new \RuntimeException('Jumlah bayar kurang dari total.');
                 }
 
+                $cupQuantities = [];
                 foreach ($pesanan->details as $detail) {
                     $produk = Produk::lockForUpdate()->findOrFail($detail->produk_id);
 
                     if ($produk->stok < $detail->qty) {
                         throw new \RuntimeException("Stok {$produk->nama_produk} tidak mencukupi.");
+                    }
+
+                    if ($produk->cup_id) {
+                        $cupQuantities[$produk->cup_id] = ($cupQuantities[$produk->cup_id] ?? 0) + $detail->qty;
+                    }
+                }
+
+                // Check cup stocks
+                foreach ($cupQuantities as $cupId => $reqQty) {
+                    $cup = Produk::lockForUpdate()->findOrFail($cupId);
+                    if ($cup->stok < $reqQty) {
+                        throw new \RuntimeException("Stok wadah/cup {$cup->nama_produk} tidak mencukupi untuk memenuhi pesanan ini.");
                     }
                 }
 
@@ -81,6 +94,10 @@ class KasirPesananController extends Controller
                     ]);
 
                     Produk::where('id', $detail->produk_id)->decrement('stok', $detail->qty);
+
+                    if ($detail->produk->cup_id) {
+                        Produk::where('id', $detail->produk->cup_id)->decrement('stok', $detail->qty);
+                    }
                 }
 
                 $pesanan->update(['status' => 'dibayar']);

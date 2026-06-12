@@ -17,6 +17,8 @@ class Produk extends Model
         'stok',
         'status',
         'gambar',
+        'tipe',
+        'cup_id',
     ];
 
     protected $appends = [
@@ -51,8 +53,28 @@ class Produk extends Model
         return $this->hasMany(StokMasuk::class);
     }
 
+    public function cup(): BelongsTo
+    {
+        return $this->belongsTo(Produk::class, 'cup_id');
+    }
+
+    public function itemsUsingCup(): HasMany
+    {
+        return $this->hasMany(Produk::class, 'cup_id');
+    }
+
     public function scopeAktif($query)
     {
         return $query->where('status', 'aktif');
+    }
+
+    public function scopeJual($query)
+    {
+        return $query->where('tipe', 'jual');
+    }
+
+    public function scopeBaku($query)
+    {
+        return $query->where('tipe', 'baku');
     }
 }

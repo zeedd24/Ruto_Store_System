@@ -19,8 +19,9 @@ class ProdukController extends Controller
     public function create()
     {
         $kategori = Kategori::orderBy('nama_kategori')->get();
+        $cups = Produk::baku()->orderBy('nama_produk')->get();
 
-        return view('produk.create', compact('kategori'));
+        return view('produk.create', compact('kategori', 'cups'));
     }
 
     public function store(Request $request)
@@ -32,8 +33,14 @@ class ProdukController extends Controller
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'status' => 'required|in:aktif,nonaktif',
+            'tipe' => 'required|in:jual,baku',
+            'cup_id' => 'nullable|exists:produk,id',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($data['tipe'] === 'baku') {
+            $data['cup_id'] = null;
+        }
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('produk', 'public');
@@ -47,8 +54,9 @@ class ProdukController extends Controller
     public function edit(Produk $produk)
     {
         $kategori = Kategori::orderBy('nama_kategori')->get();
+        $cups = Produk::baku()->where('id', '!=', $produk->id)->orderBy('nama_produk')->get();
 
-        return view('produk.edit', compact('produk', 'kategori'));
+        return view('produk.edit', compact('produk', 'kategori', 'cups'));
     }
 
     public function update(Request $request, Produk $produk)
@@ -60,8 +68,14 @@ class ProdukController extends Controller
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'status' => 'required|in:aktif,nonaktif',
+            'tipe' => 'required|in:jual,baku',
+            'cup_id' => 'nullable|exists:produk,id',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($data['tipe'] === 'baku') {
+            $data['cup_id'] = null;
+        }
 
         if ($request->hasFile('gambar')) {
             $path = $request->file('gambar')->store('produk', 'public');

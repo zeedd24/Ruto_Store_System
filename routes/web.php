@@ -12,6 +12,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrPesananController;
 use App\Http\Controllers\KasirPesananController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\KasirLaporanStokController;
+use App\Http\Controllers\AdminLaporanStokController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -54,6 +56,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/akun-kasir/{user}/reset-password', [KasirAkunController::class, 'showResetPassword'])->name('akun-kasir.reset-password');
     Route::put('/akun-kasir/{user}/reset-password', [KasirAkunController::class, 'resetPassword'])->name('akun-kasir.reset-password.update');
     Route::delete('/akun-kasir/{user}', [KasirAkunController::class, 'destroy'])->name('akun-kasir.destroy');
+
+    Route::get('/laporan-stok-baku', [AdminLaporanStokController::class, 'index'])->name('admin.laporan-stok.index');
+    Route::get('/laporan-stok-baku/{laporan}', [AdminLaporanStokController::class, 'show'])->name('admin.laporan-stok.show');
+    Route::get('/laporan-stok-baku/{laporan}/print', [AdminLaporanStokController::class, 'print'])->name('admin.laporan-stok.print');
 });
 
 Route::middleware(['auth', 'role:kasir'])->prefix('kasir')->name('kasir.')->group(function () {
@@ -66,6 +72,9 @@ Route::middleware(['auth', 'role:kasir'])->prefix('kasir')->name('kasir.')->grou
     Route::get('/pesanan/{pesanan}/bayar', [KasirPesananController::class, 'bayar'])->name('pesanan.bayar');
     Route::post('/pesanan/{pesanan}/bayar', [KasirPesananController::class, 'checkout'])->name('pesanan.checkout');
     Route::post('/pesanan/{pesanan}/batalkan', [KasirPesananController::class, 'batalkan'])->name('pesanan.batalkan');
+
+    Route::get('/laporan-stok', [KasirLaporanStokController::class, 'index'])->name('laporan-stok.index');
+    Route::post('/laporan-stok', [KasirLaporanStokController::class, 'store'])->name('laporan-stok.store');
 });
 
 Route::middleware('auth')->group(function () {

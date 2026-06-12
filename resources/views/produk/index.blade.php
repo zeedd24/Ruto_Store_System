@@ -15,6 +15,7 @@
                 <tr>
                     <th>Nama</th>
                     <th>Kategori</th>
+                    <th>Tipe</th>
                     <th class="text-right">Harga Jual</th>
                     <th class="text-right">Stok</th>
                     <th>Status</th>
@@ -24,8 +25,20 @@
             <tbody>
                 @forelse ($produk as $item)
                     <tr>
-                        <td>{{ $item->nama_produk }}</td>
+                        <td>
+                            <div class="font-medium text-gray-900">{{ $item->nama_produk }}</div>
+                            @if($item->tipe === 'jual' && $item->cup)
+                                <div class="text-xs text-gray-400">Gelas: {{ $item->cup->nama_produk }}</div>
+                            @endif
+                        </td>
                         <td>{{ $item->kategori->nama_kategori }}</td>
+                        <td>
+                            @if ($item->tipe === 'jual')
+                                <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Jual</span>
+                            @else
+                                <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">Baku</span>
+                            @endif
+                        </td>
                         <td class="text-right">Rp {{ number_format($item->harga_jual, 0, ',', '.') }}</td>
                         <td class="text-right">
                             @if ($item->stok < 10)
@@ -50,7 +63,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="ruto-empty">Belum ada produk.</td>
+                        <td colspan="7" class="ruto-empty">Belum ada produk.</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -13,8 +13,10 @@ class PesananUserController extends Controller
 {
     public function index()
     {
-        $produk = Produk::aktif()->where('stok', '>', 0)->with('kategori')->orderBy('nama_produk')->get();
-        $kategori = Kategori::orderBy('nama_kategori')->get();
+        $produk = Produk::jual()->aktif()->where('stok', '>', 0)->with('kategori')->orderBy('nama_produk')->get();
+        $kategori = Kategori::whereHas('produk', function ($q) {
+            $q->jual()->aktif()->where('stok', '>', 0);
+        })->orderBy('nama_kategori')->get();
         $traffic = $this->trafficByProduk();
 
         $produk = $produk->map(function (Produk $p) use ($traffic) {
@@ -51,7 +53,7 @@ class PesananUserController extends Controller
     {
         $q = $request->input('q', '');
 
-        $produk = Produk::aktif()
+        $produk = Produk::jual()->aktif()
             ->where('stok', '>', 0)
             ->where(function ($query) use ($q) {
                 $query->where('nama_produk', 'like', "%{$q}%")

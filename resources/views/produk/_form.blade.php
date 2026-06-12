@@ -21,6 +21,27 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="ruto-field">
+            <label>Tipe Produk</label>
+            <select name="tipe" id="tipe-select" class="ruto-select" required onchange="toggleCupSelect()">
+                <option value="jual" @selected(old('tipe', $produk?->tipe ?? 'jual') === 'jual')>Produk Jual</option>
+                <option value="baku" @selected(old('tipe', $produk?->tipe) === 'baku')>Produk Baku</option>
+            </select>
+            @error('tipe')<p class="ruto-field-error">{{ $message }}</p>@enderror
+        </div>
+        <div class="ruto-field" id="cup-field">
+            <label>Hubungkan Cup (Khusus Minuman)</label>
+            <select name="cup_id" class="ruto-select">
+                <option value="">Tidak Menggunakan Cup</option>
+                @foreach ($cups as $cup)
+                    <option value="{{ $cup->id }}" @selected(old('cup_id', $produk?->cup_id) == $cup->id)>{{ $cup->nama_produk }} (Stok: {{ $cup->stok }})</option>
+                @endforeach
+            </select>
+            @error('cup_id')<p class="ruto-field-error">{{ $message }}</p>@enderror
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="ruto-field">
             <label>Harga Modal</label>
             <input type="number" name="harga_modal" value="{{ old('harga_modal', $produk?->harga_modal) }}" min="0" step="0.01" class="ruto-input" required>
             @error('harga_modal')<p class="ruto-field-error">{{ $message }}</p>@enderror
@@ -59,6 +80,23 @@
         <p class="text-xs text-gray-500 mt-1">Opsional. JPG/PNG/WEBP maksimal 2MB.</p>
         @error('gambar')<p class="ruto-field-error">{{ $message }}</p>@enderror
     </div>
-
     <x-admin.form-actions :cancel="route('produk.index')" />
 </form>
+
+<script>
+    function toggleCupSelect() {
+        const tipeSelect = document.getElementById('tipe-select');
+        const cupField = document.getElementById('cup-field');
+        if (tipeSelect && cupField) {
+            if (tipeSelect.value === 'baku') {
+                cupField.style.display = 'none';
+                cupField.querySelector('select').value = '';
+            } else {
+                cupField.style.display = 'block';
+            }
+        }
+    }
+    // Run immediately and after load
+    toggleCupSelect();
+    window.addEventListener('load', toggleCupSelect);
+</script>
