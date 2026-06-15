@@ -47,6 +47,7 @@
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                     </span>
                 </button>
+                <a href="{{ route('profile.edit') }}" class="ruto-btn-secondary" style="font-size:0.8rem;padding:0.5rem 0.9rem;text-decoration:none;display:inline-flex;align-items:center;height:35px;box-sizing:border-box;">Profil</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="ruto-btn-secondary ruto-kasir-logout">Keluar</button>

@@ -55,11 +55,90 @@
 @push('styles')
 <style>
 @media print {
-    body * { visibility: hidden; }
-    #struk, #struk * { visibility: visible; }
-    #struk { position: absolute; left: 0; top: 0; width: 100%; }
-    .ruto-kasir-header, .ruto-kasir-header-actions { display: none !important; }
+    /* Sembunyikan elemen non-struk */
+    .ruto-kasir-header,
+    .ruto-kasir-header-actions,
+    .ruto-kasir-tabs,
+    .ruto-alert,
+    .print\:hidden,
+    #ruto-theme-toggle,
+    header,
+    footer,
+    nav {
+        display: none !important;
+    }
+
+    /* Reset warna latar belakang dan teks untuk kompatibilitas cetak (termasuk Dark Mode) */
+    html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Reset container layout utama */
+    .ruto-kasir-shell,
+    .ruto-kasir-main {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        display: block !important;
+        min-height: auto !important;
+    }
+
+    /* Format area struk */
+    #struk {
+        display: block !important;
+        visibility: visible !important;
+        margin: 0 auto !important;
+        padding: 15px !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Pastikan semua elemen teks di dalam struk berwarna hitam pekat */
+    #struk, #struk * {
+        color: #000000 !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* Maksimalkan keterbacaan gambar logo saat dicetak */
+    #struk img {
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        filter: grayscale(100%) !important;
+    }
+
+    /* Gaya pembatas putus-putus untuk struk belanja */
+    .border-t {
+        border-top: 1px dashed #000000 !important;
+    }
 }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    // Buka dialog printer secara otomatis ketika halaman struk selesai dimuat
+    window.addEventListener('DOMContentLoaded', () => {
+        // Berikan delay sangat singkat agar rendering selesai dengan sempurna sebelum print dialog memblokir thread
+        setTimeout(() => {
+            window.print();
+        }, 150);
+    });
+</script>
 @endpush
 @endsection

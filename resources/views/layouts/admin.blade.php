@@ -58,6 +58,10 @@
                 <x-admin.nav-group label="Tim">
                     <x-admin.nav-link :href="route('akun-kasir.index')" :active="request()->routeIs('akun-kasir.*')" icon="kasir" :delay="300">Akun Kasir</x-admin.nav-link>
                 </x-admin.nav-group>
+
+                <x-admin.nav-group label="Pengaturan">
+                    <x-admin.nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')" icon="profil" :delay="350">Profil Saya</x-admin.nav-link>
+                </x-admin.nav-group>
             </nav>
 
             <div class="ruto-sidebar-footer">
