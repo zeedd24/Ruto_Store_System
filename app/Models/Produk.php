@@ -40,7 +40,7 @@ class Produk extends Model
         }
 
         // Return a relative URL so it works regardless of APP_URL/port during local dev.
-        return asset('storage/'.$this->gambar);
+        return asset('product-images/'.$this->gambar);
     }
 
     public function kategori(): BelongsTo

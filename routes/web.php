@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/storage/{path}', function ($path) {
+Route::get('/product-images/{path}', function ($path) {
     $fullPath = storage_path('app/public/' . $path);
     if (!file_exists($fullPath) || is_dir($fullPath)) {
         abort(404);
