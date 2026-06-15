@@ -69,7 +69,7 @@ class PesananUserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nomor_meja' => 'required|string|max:50',
+            'nomor_meja' => 'required|integer|min:1',
             'items' => 'required|array|min:1',
             'items.*.produk_id' => 'required|exists:produk,id',
             'items.*.qty' => 'required|integer|min:1',

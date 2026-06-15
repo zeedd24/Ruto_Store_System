@@ -40,7 +40,8 @@
         </div>
         <div class="rc-input-group" style="margin-bottom: 12px;">
             <label class="rc-label" for="cart-nomor-meja" style="font-weight: 600; display: block; margin-bottom: 6px; color: var(--rc-text);">Nomor Meja</label>
-            <input id="cart-nomor-meja" type="text" x-model="nomorMeja" class="rc-input"
+            <input id="cart-nomor-meja" type="text" x-model="nomorMeja"
+                @input="nomorMeja = nomorMeja.replace(/[^0-9]/g, '')" class="rc-input"
                 placeholder="Masukkan Nomor Meja (Contoh: 12)" inputmode="numeric" autocomplete="off"
                 style="border: 1px solid rgba(230, 162, 39, 0.3); border-radius: 8px; width: 100%; box-sizing: border-box;">
         </div>
