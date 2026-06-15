@@ -1,4 +1,4 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/detikacd/public_html
+    - export DEPLOYPATH=/home/detikacd/rutocoffe.com
     - /bin/rsync -a --exclude='.git' --exclude='.cpanel.yml' ./ $DEPLOYPATH
