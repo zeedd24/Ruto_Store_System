@@ -119,9 +119,7 @@
 /* Layout */
 .ruto-admin-body {
     font-family: 'Outfit', sans-serif;
-    background:
-        radial-gradient(circle at 100% 0%, var(--ruto-brand-soft) 0%, transparent 40%),
-        linear-gradient(180deg, var(--ruto-warm) 0%, #f5f3ef 100%);
+    background: #f4f3ef; /* Flat warm-gray solid background */
     min-height: 100vh;
     color: var(--ruto-text);
 }
@@ -158,6 +156,7 @@
 }
 
 .ruto-sidebar-orb {
+    display: none; /* Hide background orbs */
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
@@ -209,14 +208,7 @@
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    background: conic-gradient(
-        from 0deg,
-        var(--ruto-brand),
-        var(--ruto-brand-light),
-        transparent 40%,
-        var(--ruto-brand-dark),
-        var(--ruto-brand)
-    );
+    background: var(--ruto-brand); /* Solid brand background */
     animation: rutoRingSpin 6s linear infinite;
     opacity: 0.85;
 }
@@ -300,7 +292,7 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, rgba(230, 162, 39, 0.35), transparent);
+    background: rgba(230, 162, 39, 0.25); /* Solid clean line */
 }
 
 .ruto-nav-group-items {
@@ -334,7 +326,7 @@
     inset: 0;
     border-radius: inherit;
     opacity: 0;
-    background: linear-gradient(135deg, rgba(230, 162, 39, 0.2), transparent 60%);
+    background: rgba(230, 162, 39, 0.1); /* Solid clean background */
     transition: opacity 0.25s ease;
     pointer-events: none;
 }
@@ -406,7 +398,7 @@
     box-shadow:
         0 8px 24px rgba(196, 136, 26, 0.35),
         0 0 0 1px rgba(255, 255, 255, 0.15) inset;
-    background: linear-gradient(120deg, var(--ruto-brand) 0%, var(--ruto-brand-dark) 100%);
+    background: var(--ruto-brand-dark); /* Solid active background */
 }
 
 .ruto-nav-item.is-active .ruto-nav-item-glow {
@@ -440,7 +432,7 @@
     gap: 0.65rem;
     padding: 0.65rem 0.7rem;
     border-radius: 1rem;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 249, 240, 0.9));
+    background: rgba(255, 255, 255, 0.95); /* Solid clean background */
     border: 1px solid rgba(230, 162, 39, 0.2);
     box-shadow: 0 4px 14px rgba(230, 162, 39, 0.08);
 }
@@ -450,7 +442,7 @@
     height: 2.5rem;
     flex-shrink: 0;
     border-radius: 0.75rem;
-    background: linear-gradient(135deg, var(--ruto-brand), var(--ruto-brand-dark));
+    background: var(--ruto-brand); /* Solid brand background */
     color: #fff;
     font-weight: 600;
     font-size: 1rem;
@@ -662,7 +654,7 @@
     width: 2.5rem;
     height: 1.35rem;
     border-radius: 999px;
-    background: linear-gradient(90deg, #e8eef5 0%, var(--ruto-brand-soft) 100%);
+    background: rgba(230, 162, 39, 0.1); /* Solid track background */
     position: relative;
     transition: background 0.3s ease;
 }
@@ -674,7 +666,7 @@
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--ruto-brand), var(--ruto-brand-dark));
+    background: var(--ruto-brand); /* Solid thumb background */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -702,7 +694,7 @@ html[data-theme='dark'] .ruto-theme-thumb {
 }
 
 html[data-theme='dark'] .ruto-theme-track {
-    background: linear-gradient(90deg, #2a2418 0%, rgba(230, 162, 39, 0.35) 100%);
+    background: rgba(230, 162, 39, 0.2); /* Solid dark track background */
 }
 
 .ruto-content {
@@ -817,7 +809,7 @@ html[data-theme='dark'] .ruto-theme-track {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--ruto-brand), var(--ruto-brand-light));
+    background: var(--ruto-brand); /* Solid top bar */
 }
 
 .ruto-stat-card:hover {
@@ -861,7 +853,7 @@ html[data-theme='dark'] .ruto-theme-track {
     align-items: center;
     gap: 0.35rem;
     padding: 0.6rem 1.15rem;
-    background: linear-gradient(135deg, var(--ruto-brand) 0%, var(--ruto-brand-dark) 100%);
+    background: var(--ruto-brand); /* Solid button background */
     color: #fff;
     font-size: 0.875rem;
     font-weight: 500;
@@ -897,7 +889,7 @@ html[data-theme='dark'] .ruto-theme-track {
 }
 
 .ruto-btn-warning {
-    background: linear-gradient(135deg, #d97706, #b45309);
+    background: #d97706; /* Solid button background */
 }
 
 /* Table */
@@ -1076,7 +1068,7 @@ html[data-theme='dark'] .ruto-theme-track {
 
 /* Welcome banner on dashboard */
 .ruto-welcome-banner {
-    background: linear-gradient(135deg, var(--ruto-brand) 0%, var(--ruto-brand-dark) 100%);
+    background: var(--ruto-brand); /* Solid banner background */
     color: #fff;
     border-radius: 0.75rem;
     padding: 1.25rem 1.5rem;
@@ -1124,9 +1116,7 @@ html[data-theme='dark'] {
 }
 
 html[data-theme='dark'] .ruto-admin-body {
-    background:
-        radial-gradient(circle at 100% 0%, rgba(230, 162, 39, 0.08) 0%, transparent 40%),
-        linear-gradient(180deg, #0f0e0c 0%, #1a1814 100%);
+    background: #0f0e0c; /* Solid dark background */
 }
 
 html[data-theme='dark'] .ruto-sidebar {
@@ -1160,7 +1150,7 @@ html[data-theme='dark'] .ruto-nav-item:hover {
 }
 
 html[data-theme='dark'] .ruto-user-card {
-    background: linear-gradient(135deg, rgba(35, 32, 26, 0.95), rgba(26, 24, 20, 0.9));
+    background: rgba(35, 32, 26, 0.95); /* Solid dark user card */
     border-color: rgba(230, 162, 39, 0.2);
 }
 
@@ -1177,7 +1167,7 @@ html[data-theme='dark'] .ruto-topbar {
 
 html[data-theme='dark'] .ruto-breadcrumb-current {
     color: var(--ruto-brand-light);
-    background: linear-gradient(135deg, rgba(230, 162, 39, 0.2), rgba(230, 162, 39, 0.06));
+    background: rgba(230, 162, 39, 0.15); /* Solid background */
     border-color: rgba(230, 162, 39, 0.3);
 }
 
