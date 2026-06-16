@@ -124,7 +124,7 @@ class KasirController extends Controller
 
     public function struk(Transaksi $transaksi)
     {
-        if ($transaksi->user_id !== auth()->id() && auth()->user()->role !== 'admin') {
+        if (! in_array(auth()->user()->role, ['admin', 'kasir'], true)) {
             abort(403);
         }
 

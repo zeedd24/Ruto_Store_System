@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         $user = $request->user();
 
@@ -16,7 +16,7 @@ class RoleMiddleware
             return redirect()->route('login');
         }
 
-        if ($user->role !== $role) {
+        if (! in_array($user->role, $roles, true)) {
             return redirect()->to($user->homeRoute());
         }
 

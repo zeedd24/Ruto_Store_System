@@ -62,11 +62,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/laporan-stok-baku/{laporan}/print', [AdminLaporanStokController::class, 'print'])->name('admin.laporan-stok.print');
 });
 
+Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
+    Route::get('/kasir/struk/{transaksi}', [KasirController::class, 'struk'])->name('kasir.struk');
+});
+
 Route::middleware(['auth', 'role:kasir'])->prefix('kasir')->name('kasir.')->group(function () {
     Route::get('/', [KasirController::class, 'index'])->name('index');
     Route::get('/cari', [KasirController::class, 'search'])->name('search');
     Route::post('/checkout', [KasirController::class, 'checkout'])->name('checkout');
-    Route::get('/struk/{transaksi}', [KasirController::class, 'struk'])->name('struk');
 
     Route::get('/pesanan', [KasirPesananController::class, 'index'])->name('pesanan.index');
     Route::get('/pesanan/{pesanan}/bayar', [KasirPesananController::class, 'bayar'])->name('pesanan.bayar');
