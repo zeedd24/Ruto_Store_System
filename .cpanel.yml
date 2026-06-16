@@ -2,3 +2,5 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/detikacd/public_html/rutocoffe.com
     - tar --exclude='.git' --exclude='.cpanel.yml' -cf - . | (cd $DEPLOYPATH && tar -xf -)
+    - find $DEPLOYPATH -type d -exec chmod 755 {} \;
+    - find $DEPLOYPATH -type f -exec chmod 644 {} \;
