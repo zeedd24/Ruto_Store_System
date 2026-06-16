@@ -26,7 +26,7 @@
                 @forelse ($produk as $item)
                     <tr>
                         <td>
-                            <div class="font-medium text-gray-900">{{ $item->nama_produk }}</div>
+                            <div class="font-medium text-[var(--ruto-text)]">{{ $item->nama_produk }}</div>
                             @if($item->tipe === 'jual' && $item->cup)
                                 <div class="text-xs text-gray-400">Gelas: {{ $item->cup->nama_produk }}</div>
                             @endif
